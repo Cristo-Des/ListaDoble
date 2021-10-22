@@ -7,23 +7,19 @@ namespace ListaDoble
     class ListaDoble
     {
         private Nodo head;
-        //private Nodo feet;
+       
 
         public Nodo Head
         {
             get { return head; }
             set { head = value; }
         }
-        //public Nodo Feet
-        //{
-        //    get { return feet; }
-        //    set { feet = value; }
-        //}
+      
 
         public ListaDoble()
         {
             head = null;
-            //feet = null;
+           
         }
 
         public void Agregar(Nodo n)
@@ -31,7 +27,7 @@ namespace ListaDoble
             if (head == null)
             {
                 head = n;
-                //feet = head;
+               
                 return;
             }
             if (n.Numero < head.Numero)
@@ -60,13 +56,13 @@ namespace ListaDoble
             }
         }
 
-        public void Eliminar(int d)
+        public void Eliminar(int num)
         {
             if (head == null)
             {
                 return;
             }
-            if (head.Numero == d)
+            if (head.Numero == num)
             {
                 head = head.Siguiente;
                 head.Anterior = null;
@@ -75,7 +71,7 @@ namespace ListaDoble
             Nodo h = head;
             while (h.Siguiente != null)
             {
-                if (h.Siguiente.Numero == d)
+                if (h.Siguiente.Numero == num)
                 {
                     break;
                 }
@@ -86,146 +82,83 @@ namespace ListaDoble
                 return;
             }
             h.Siguiente = h.Siguiente.Siguiente;
-            h.Siguiente.Anterior = h;
-
-            /*
-            Nodo actual = new Nodo();
-            Nodo anterior = new Nodo();
-            actual = head;
-            bool encontrado = false;
-            int nodoBuscado = int.Parse(Console.ReadLine());
-            while (actual != null && encontrado == false)
+            if (h.Siguiente != null)
             {
-                if (actual.Numero == nodoBuscado)
-                {
-                    if (actual == head)
-                    {
-                        head = head.Siguiente;
-                        head.Anterior = null;
-                    }
-                    else if (actual == feet)
-                    {
-                        anterior.Siguiente = null;
-                        feet = anterior;
-                    }
-                    else
-                    {
-                        anterior.Siguiente = actual.Siguiente;
-                        actual.Siguiente.Anterior = anterior;
-                    }
-                    Console.WriteLine("nodo con el Numero ((0)) encontrado", actual.Numero);
-
-                    encontrado = true;
-                }
-                anterior = actual;
-                actual = actual.Siguiente;
+                h.Siguiente.Anterior = h;
             }
-            */
         }
 
-        public bool Buscar(int d, ref Nodo b)
+        public bool Buscar(int num, ref Nodo n)
         {
             if (head == null)
             {
                 return false;
             }
-            if (head.Numero == d)
+            if (head.Numero == num)
             {
-                b = head;
+                n = head;
                 return true;
             }
             Nodo h = head;
             while (h.Siguiente != null)
             {
-                if (h.Siguiente.Numero == d)
+                if (h.Siguiente.Numero == num)
                 {
-                    b = h.Siguiente;
+                    n = h.Siguiente;
                     return true;
                 }
                 h = h.Siguiente;
             }
             return false;
-
-            /*
-            Nodo actual = new Nodo();
-            actual = head;
-            bool encontrado = false;
-            Console.Write("ingrese el nodo a buscar");
-            int nodoBuscado = int.Parse(Console.ReadLine());
-            while (actual != null && encontrado == false)
-            {
-                if (actual.Numero == nodoBuscado)
-                {
-                    Console.WriteLine("nodo con el Numero ((0)) encontrado", actual.Numero);
-                    encontrado = true;
-                }
-                actual = actual.Siguiente;
-            }
-            */
         }
 
-        public void Modificar(int d, string n)
+        public void Modificar(int num, string nom,int equipo, string tema)
         {
             if (head == null)
             {
                 return;
             }
-            if (head.Numero == d)
+            if (head.Numero == num)
             {
-                head.Nombre = n;
+                head.Nombre = nom;
+                head.Equipo = equipo;
+                head.Tema = tema;
                 return;
             }
             Nodo h = head;
             while (h.Siguiente != null)
             {
-                if (h.Siguiente.Numero == d)
+                if (h.Siguiente.Numero == num)
                 {
-                    h.Siguiente.Nombre = n;
+                    h.Siguiente.Nombre = nom;
+                    h.Siguiente.Equipo = equipo;
+                    h.Siguiente.Tema = tema;
+
                     return;
                 }
                 h = h.Siguiente;
             }
             return;
-
-            /*
-            Nodo actual = new Nodo();
-            actual = head;
-            bool encontrado = false;
-            Console.Write("ingrese el Numero del nodo a modificar");
-            int nodoBuscado = int.Parse(Console.ReadLine());
-            while (actual != null && encontrado == false)
-            {
-                if (actual.Numero == nodoBuscado)
-                {
-                    Console.WriteLine("nodo con el Numero ((0)) encontrado", actual.Numero);
-                    Console.Write("ingrese el nuevo Numero para este nodo");
-                    actual.Numero = int.Parse(Console.ReadLine());   // 90
-                    Console.WriteLine("nodo modificado");
-                    encontrado = true;
-                }
-                actual = actual.Siguiente;
-            }
-            if (!encontrado)
-            {
-                Console.WriteLine("nodo no encontrado");
-            }
-            */
         }
 
-        public void Mostrar(ListBox lista)
+        public void Mostrar(ListView lista)
         {
             Nodo h = head;
             lista.Items.Clear();
             while (h != null)
             {
-                lista.Items.Add(h.Numero+ " - " + h.Nombre);
+                ListViewItem lv = new ListViewItem(h.Numero + "");
+                lv.SubItems.Add(h.Nombre);
+                lv.SubItems.Add(h.Equipo+"");
+                lv.SubItems.Add(h.Tema);
+                lista.Items.Add(lv);
                 h = h.Siguiente;
             }
         }
 
-        public void Guardar()
+        public void Guardar(string nombreArchivo)
         {
-            string nombreArchivo = "ListaDoble";
+            //string nombreArchivo = "ListaDoble";
             Nodo h = head;
             if (head == null)
             {
@@ -236,16 +169,16 @@ namespace ListaDoble
             {
                 do
                 {
-                    sw.WriteLine(h.Numero + "-" + h.Nombre);
+                    sw.WriteLine(h.Numero + "-" + h.Nombre + "-" + h.Equipo + "-" + h.Tema);
                     h = h.Siguiente;
                 } while (h != null);
             }
             return;
         }
 
-        public void Cargar()
+        public void Cargar(string nombreArchivo)
         {
-            string nombreArchivo = "ListaDoble";
+           // string nombreArchivo = "ListaDoble";
             string path = @"D:\" + nombreArchivo + ".txt";
             if (!File.Exists(path))
             {
@@ -261,34 +194,12 @@ namespace ListaDoble
                 string[] datos = linea.Split('-');
                 int numero = int.Parse(datos[0]);
                 string nombre = datos[1];
-                Nodo n = new Nodo(numero, nombre);
+                int equipo = int.Parse(datos[2]);
+                string tema = datos[3];
+                Nodo n = new Nodo(numero, nombre, equipo, tema);
                 Agregar(n);
             }
         }
-
-        /*
-        public void DesplegarListaPU()
-        {
-            Nodo actual = new Nodo();
-            actual = head;
-            while (actual != null)
-            {
-                Console.WriteLine(" " + actual.Numero);
-                actual = actual.Siguiente;
-            }
-        }
-
-        public void DesplegarListaUP()
-        {
-            Nodo actual = new Nodo();
-            actual = feet;
-            while (actual != null)
-            {
-                Console.WriteLine(" " + actual.Numero);
-                actual = actual.Anterior;
-            }
-        }
-        */
 
     }
 }

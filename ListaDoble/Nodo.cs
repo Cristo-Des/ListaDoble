@@ -10,6 +10,8 @@ namespace ListaDoble
     {
         private int numero;
         private string nombre;
+        private int equipo;
+        private string tema;
         private Nodo siguiente;
         private Nodo anterior;
 
@@ -23,6 +25,17 @@ namespace ListaDoble
         {
             get { return nombre; }
             set { nombre = value; }
+        }
+        public int Equipo
+        {
+            get { return equipo; }
+            set { equipo = value; }
+        }
+
+        public string Tema
+        {
+            get { return tema; }
+            set { tema = value; }
         }
 
         public Nodo Siguiente
@@ -39,21 +52,25 @@ namespace ListaDoble
         {
             numero = 0;
             nombre = "";
+            equipo = 0;
+            tema = "";
             siguiente = null;
             anterior = null;
         }
 
-        public Nodo(int d, string n)
+        public Nodo(int d, string n, int e, string t)
         {
             numero = d;
             nombre = n;
+            equipo = e;
+            tema = t;
             siguiente = null;
             anterior = null;
         }
 
         public override string ToString()
         {
-            return numero + " - " + nombre;
+            return numero + " - " + nombre + " - " + equipo + " - " + tema;
         }
 
     }
